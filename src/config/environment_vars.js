@@ -70,9 +70,12 @@ vars = {
 
 _.forEach(vars, function(value, key){
   var keyType = typeof vars[key];
+  console.log(vars[key]);
 
   if (_.has(process.env, key)){
+    console.log(_.has(process.env, key));
     vars[key] = process.env[key];
+    console.log(vars[key]);
 
     if (keyType === 'number') {
       vars[key] = +(vars[key]);
