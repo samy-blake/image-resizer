@@ -13,9 +13,7 @@ try {
     accessKeyId: env.AWS_ACCESS_KEY_ID,
     secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
     region: env.AWS_REGION,
-  }
-  if (env.AWS_ENDPOINT) {
-    client_options['endpoint'] = env.AWS_ENDPOINT;
+    endpoint: env.AWS_ENDPOINT
   }
   client = new s3(client_options);
   bucket = env.S3_BUCKET;
