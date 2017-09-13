@@ -18,6 +18,7 @@ vars = {
   AWS_ACCESS_KEY_ID: null,
   AWS_SECRET_ACCESS_KEY: null,
   AWS_REGION: null,
+  AWS_ENDPOINT: null,
   S3_BUCKET: null,
 
   // Resize options
