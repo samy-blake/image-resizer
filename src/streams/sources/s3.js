@@ -7,24 +7,42 @@ s3     = require('aws-sdk').S3;
 stream = require('stream');
 util   = require('util');
 
-try {
-  // create an AWS S3 client with the config data
-  var client_options = {
-    accessKeyId: env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
-    region: env.AWS_REGION
+var project_config = require.main.require('./projects.json');
+
+function s3Stream(image, project){
+  if (project) {
+    var project_setting = project_config.projects[project];
+    try {
+      // create an AWS S3 client with the config data
+      var client_options = {
+        accessKeyId: project_setting.AWS_ACCESS_KEY_ID,
+        secretAccessKey: project_setting.AWS_SECRET_ACCESS_KEY,
+        region: project_setting.AWS_REGION
+      }
+      if (project_setting.AWS_ENDPOINT) {
+        client_options['endpoint'] = project_setting.AWS_ENDPOINT;
+      }
+      client = new s3(client_options);
+      bucket = project_setting.S3_BUCKET;
+    } catch(e) {
+      console.log('some error: ', e);
+    }
+  } else {
+    try {
+      // create an AWS S3 client with the config data
+      var client_options = {
+        accessKeyId: env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+        region: env.AWS_REGION
+      }
+      if (env.AWS_ENDPOINT) {
+        client_options['endpoint'] = env.AWS_ENDPOINT;
+      }
+      client = new s3(client_options);
+      bucket = env.S3_BUCKET;
+    } catch(e) {}
   }
-  if (env.AWS_ENDPOINT) {
-    client_options['endpoint'] = env.AWS_ENDPOINT;
-  }
-  client = new s3(client_options);
-  bucket = env.S3_BUCKET;
-} catch(e) {
 
-}
-
-
-function s3Stream(image){
   /* jshint validthis:true */
   if (!(this instanceof s3Stream)){
     return new s3Stream(image);

@@ -36,7 +36,12 @@ function Image(request){
   this.parseImage(request);
 
   // determine the requested modifications
-  this.modifiers = modifiers.parse(request.path);
+  var pathParts = request.path.replace(/^\//,'').split('/');
+  if (pathParts.length === 3) {
+    pathParts.shift();
+  }
+
+  this.modifiers = modifiers.parse('/' + pathParts.join('/'));
 
   // pull the various parts needed from the request params
   this.parseUrl(request);
@@ -89,7 +94,7 @@ Image.prototype.parseImage = function(request){
 
 // Determine the file path for the requested image
 Image.prototype.parseUrl = function(request){
-  var parts = request.path.replace(/^\//,'').split('/');
+  var parts = request.path.replace(/^\//,'').split('/').slice(-2);
 
   // overwrite the image name with the parsed version so metadata requests do
   // not mess things up
@@ -121,7 +126,7 @@ Image.prototype.isBuffer = function(){
 };
 
 
-Image.prototype.getFile = function(){
+Image.prototype.getFile = function(project){
   var sources = require('./streams/sources'),
       excludes = env.EXCLUDE_SOURCES ? env.EXCLUDE_SOURCES.split(',') : [],
       streamType = env.DEFAULT_SOURCE,
@@ -148,7 +153,7 @@ Image.prototype.getFile = function(){
     Stream = sources[streamType];
   }
 
-  return new Stream(this);
+  return new Stream(this, project);
 };
 
 

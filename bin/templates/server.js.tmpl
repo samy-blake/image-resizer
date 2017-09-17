@@ -55,9 +55,15 @@ Return an image modified to the requested parameters
     eg: https://my.cdn.com/s50/sample/test.png
 */
 app.get('/*?', function(request, response){
+  var pathParts = request.path.replace(/^\//,'').split('/');
   var image = new Img(request);
 
-  image.getFile()
+  var project = false;
+
+  if (pathParts.length === 3) {
+    project = pathParts.shift();
+  }
+  image.getFile(project)
     .pipe(new streams.identify())
     .pipe(new streams.normalize())
     .pipe(new streams.resize())
