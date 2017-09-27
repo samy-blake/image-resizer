@@ -22,6 +22,9 @@ function s3Stream(image, project){
       if (project_setting.AWS_ENDPOINT) {
         client_options['endpoint'] = project_setting.AWS_ENDPOINT;
       }
+      if (project_setting.AWS_SIGNATURE) {
+        client_options['signatureVersion'] = project_setting.AWS_SIGNATURE;
+      }
       client = new s3(client_options);
       bucket = project_setting.S3_BUCKET;
     } catch(e) {
