@@ -7,7 +7,7 @@ s3     = require('aws-sdk').S3;
 stream = require('stream');
 util   = require('util');
 
-var project_config = require.main.require('./projects.json');
+var project_config = include('projects.json');
 
 function s3Stream(image, project){
   if (project) {
