@@ -135,12 +135,16 @@ Image.prototype.getFile = function(project){
   // look to see if the request has a specified source
   if (_.has(this.modifiers, 'external')){
     if (_.has(sources, this.modifiers.external)){
-      streamType = this.modifiers.external;
+			streamType = this.modifiers.external;
     } else if (_.has(env.externalSources, this.modifiers.external)) {
-      Stream = sources.external;
+			Stream = sources.external;
       return new Stream(this, this.modifiers.external, env.externalSources[this.modifiers.external]);
     }
   }
+	if(_.has(this.modifiers, 'remote')) {
+		Stream = sources.remote;
+		return new Stream(this, project);
+	}
 
   // if this request is for an excluded source create an ErrorStream
   if (excludes.indexOf(streamType) > -1){

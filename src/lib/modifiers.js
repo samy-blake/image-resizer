@@ -111,6 +111,11 @@ modifierMap = [
     default: environment.DEFAULT_SOURCE
   },
   {
+    key: 'r',
+    desc: 'remote',
+    type: 'string'
+  },
+  {
     key: 'f',
     desc: 'filter',
     type: 'string',
@@ -172,7 +177,7 @@ function parseModifiers(mods, modArr) {
 
       //this is a limit enforced by sharp. the application will crash without
       //these checks.
-      var dimensionLimit = 16383;
+			var dimensionLimit = 16383;
 
       switch(mod.desc){
       case 'height':
@@ -218,10 +223,14 @@ function parseModifiers(mods, modArr) {
         mods.hasModStr = true;
         break;
       case 'external':
-        value = string.sanitize(value, 'alphanumeric');
+				value = string.sanitize(value, 'alphanumeric');
         if (inArray(value.toLowerCase(), mod.values)){
           mods.external = value.toLowerCase();
         }
+        mods.hasModStr = true;
+        break;
+			case 'remote':
+				mods.remote = true;
         mods.hasModStr = true;
         break;
       case 'filter':
@@ -336,20 +345,20 @@ exports.parse = function(requestUrl, namedMods, envOverride){
   // only named modifiers.
   if (!env.NAMED_MODIFIERS_ONLY) {
     mods = parseModifiers(mods, modStr.split('-'));
-  }
+	}
 
 
   // check to see if this a metadata call, it trumps all other requested mods
   if (image.slice(-5) === '.json'){
     mods.action = 'json';
     return mods;
-  }
+	}
 
   if (mods.action === 'square'){
     // make sure crop is set to the default
     mods.crop = 'fill';
     return limitMaxDimension(mods, env);
-  }
+	}
 
   if (mods.height !== null || mods.width !== null){
     mods.action = 'resize';
@@ -363,7 +372,7 @@ exports.parse = function(requestUrl, namedMods, envOverride){
     if (_.has(mods, 'x') || _.has(mods, 'y')) {
       mods.action = 'crop';
     }
-  }
+	}
 
   return limitMaxDimension(mods, env);
 };
