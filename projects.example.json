@@ -1,0 +1,13 @@
+{
+	"projects": {
+		"NAME": {
+			"title": "",
+			"AWS_ACCESS_KEY_ID": "",
+			"AWS_SECRET_ACCESS_KEY": "",
+			"AWS_ENDPOINT": "",
+			"AWS_REGION": "",
+			"S3_BUCKET": "",
+			"AWS_SIGNATURE": ""
+		}
+	}
+}
