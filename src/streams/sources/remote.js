@@ -60,7 +60,7 @@ Remote.prototype._read = function(){
         _this.ended = true;
       }
       else {
-        _this.image.error = new Error('Remote user image not found');
+        _this.image.error = new Error('['+response.statusCode+'] Remote user image not found ('+url+')');
         _this.image.error.statusCode = 404;
       }
     }

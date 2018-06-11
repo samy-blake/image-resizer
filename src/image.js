@@ -66,7 +66,10 @@ Image.validOutputFormats = ['jpeg', 'png', 'webp'];
 Image.prototype.parseImage = function(request){
   var fileStr = _.last(request.path.split('/'));
   var exts = fileStr.split('.').map( function (item) {
-    return item.toLowerCase();
+		if(item.length <= 4) {
+			return item.toLowerCase();
+		}
+    return item;
   });
 
   // clean out any metadata format
@@ -94,7 +97,9 @@ Image.prototype.parseImage = function(request){
 
 // Determine the file path for the requested image
 Image.prototype.parseUrl = function(request){
-  var parts = request.path.replace(/^\//,'').split('/').slice(-2);
+
+	var parts = request.path.replace(/^\//,'').split('/').slice(-2);
+
 
   // overwrite the image name with the parsed version so metadata requests do
   // not mess things up
