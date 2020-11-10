@@ -18,6 +18,7 @@ When a new image size is requested of `image-resizer` via the CDN, it will pull 
 
 ## Getting Started
 
+    $ apt-get install build-essential #!!!!!!!!!!!!!!!!!!!
     $ npm install -g tripviss/image-resizer gulp
     $ mkdir my_fancy_image_server
     $ cd my_fancy_image_server
